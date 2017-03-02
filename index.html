@@ -4,13 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Revolve: An Evolutionary Robotics Toolkit</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
-
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/theme/blood.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -20,13 +17,137 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+
+		<style type="text/css">
+			#video-background {
+				overflow: hidden;
+				position: absolute;
+				top:0; right:0; bottom:0; left:0;
+				display:none;
+			}
+
+			.with-video #video-background {
+				display:block;
+			}
+
+			#video-background iframe {
+				border:none;
+				position:absolute;
+				top:-50px;
+				right:-50px;
+				bottom:-50px;
+				left:-50px;
+			}
+
+			#footer {
+				position:absolute;
+				left:15px;
+				bottom:15px;
+				font-size:18px;
+			}
+		</style>
 	</head>
 	<body>
+		<div id="video-background">
+			<iframe style="width:100%; height:100%;"
+					src="https://youtube.com/embed/4ADNOUnD6Gc?autoplay=1&controls=0&showinfo=0&autohide=1">
+			</iframe>
+		</div>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section data-state="with-video">
+
+					<div style="background-color:rgba(35, 36, 31, 0.2);">
+						<h1>Revolve</h1>
+						<h2>An Evolutionary Robotics Toolkit</h2>
+					</div>
+
+				</section>
+				<section>
+					<h3>What do we want and why</h3>
+					<p><i>Recent technological advances in rapid manufacturing technology are providing a basis
+						for experiments in which robots evolve in real time and real space,
+						otherwise known as the Evolution of Things.</i></p>
+				</section>
+				<section>
+					<h3>Background / primer</h3>
+					<p>Primer evolutionary computing / robotics</p>
+					<p>On-line / off-line evolution</p>
+				</section>
+				<section>
+					<h3>How</h3>
+					<p><i>Hardware is still slow and expensive. We’d like to simulate experiments to look at
+						their potential. We want experiments to be:</i></p>
+					<ul>
+						<li>Flexible</li>
+						<li>Fast to bootstrap</li>
+						<li>Fast to compute</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Research</h3>
+					<p>What happens between off-line and on-line?</p>
+				</section>
+				<section>
+					<h3>Revolve</h3>
+					<ul>
+						<li>Built on Gazebo</li>
+						<li>Separate modules</li>
+						<li>Fast stuff in C++, tedious stuff in Python</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Theory: Revolve specification</h3>
+					<p>Graph structure, picture would be nice</p>
+				</section>
+				<section>
+					<h3>Experimental setup</h3>
+					<p>Genotype: Revolve spec with neural network and RoboGen body parts.</p>
+				</section>
+				<section>
+					<h3>Body parts</h3>
+					<p>Pictures</p>
+				</section>
+				<section>
+					<h3>Scenarios</h3>
+					<ul>
+						<li>Computational performance</li>
+						<li>Baseline</li>
+						<li>Evolution 1, 2 and 3</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Results: Performance</h3>
+					<p>Picture</p>
+				</section>
+				<section>
+					<h3>Results: Evolution</h3>
+					<section>
+						<p>Got to decide on what to show here</p>
+					</section>
+					<section>
+						<p>Probably a few like these</p>
+					</section>
+				</section>
+				<section>
+					<h3>Conclusion</h3>
+					<section>
+						<h4>Utility</h4>
+					</section>
+					<section>
+						<h4>Experiments</h4>
+					</section>
+				</section>
+				<section>
+					<h3>Recommendations & Future Work</h3>
+					<p>Reality gap (Discussion, actually)</p>
+					<p>Sensors</p>
+					<p>More focus on brains</p>
+					<p>Parameter search</p>
+					<p>Triangle of Life</p>
+				</section>
 			</div>
+			<div id="footer">Elte Hupkes</div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
@@ -36,13 +157,13 @@
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				history: true,
+				slideNumber: "c/t",
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 		</script>
