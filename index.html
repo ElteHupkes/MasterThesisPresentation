@@ -50,7 +50,7 @@
 	<body>
 		<div id="video-background">
 			<iframe style="width:100%; height:100%;"
-					src="https://youtube.com/embed/4ADNOUnD6Gc?autoplay=1&controls=0&showinfo=0&autohide=1">
+					src="https://youtube.com/embed/4ADNOUnD6Gc?autoplay=1&controls=0&showinfo=0&autohide=1&loop=1&playlist=4ADNOUnD6Gc">
 			</iframe>
 		</div>
 		<div class="reveal">
@@ -64,25 +64,129 @@
 
 				</section>
 				<section>
-					<h3>What do we want and why</h3>
-					<p><i>Recent technological advances in rapid manufacturing technology are providing a basis
-						for experiments in which robots evolve in real time and real space,
-						otherwise known as the Evolution of Things.</i></p>
+					<h3>Outline</h3>
+					<ol>
+						<li>Background</li>
+						<li>What & why</li>
+						<li>How: introducing Revolve</li>
+						<li>Experimental setup</li>
+						<li>Results</li>
+						<li>Conclusions & recommendations</li>
+					</ol>
+					<!-- Writing the asides as a story because I find it easier to determine the
+					     flow of the presentation that way. Maybe remove the notes later to prevent
+					     it from actually becoming a read story. -->
+					<aside class="notes">
+						Today, I'll be presenting the work of my Master's thesis, which is about evolving robots.
+						This may sound a little bit "out there" for most of the audience, so I am going to start
+						with a quick primer on what that actually means. I will then tell you what it is that
+						I've been aiming to achieve, and why. I'll introduce the Revolve toolkit and tell you
+						what it's designed to do. I will then walk you through the setup of the experiments that
+						I performed with this toolkit, followed by their results, and conclusions.
+					</aside>
 				</section>
 				<section>
-					<h3>Background / primer</h3>
-					<p>Primer evolutionary computing / robotics</p>
-					<p>On-line / off-line evolution</p>
+					<h3>Solving problems using evolution</h3>
+					<ol>
+						<li class="fragment">Genotype, "DNA"</li>
+						<li class="fragment">Phenotype</li>
+						<li class="fragment">Fitness</li>
+						<li class="fragment">Reproduction (combination & mutation)</li>
+						<li class="fragment">Candidate solutions</li>
+					</ol>
+
+					<aside class="notes">
+						When faced with a problem that is difficult to optimize, we can resort to evolution as
+						a heuristic. Provided we agree that evolution is what shaped a lot of living
+						and non-living entities around us, I think it's fair to say that the process is a good
+						problem solver. To solve a problem with evolution, we need just a few things:
+						<ol>
+							<li>A genotype, the "DNA" of a solution</li>
+							<li>A phenotype, the actual solution itself</li>
+							<li>A way to measure the quality of a solution, "fitness"</li>
+							<li>A way to combine and mutate genotypes</li>
+							<li>A starting set of candidate solutions</li>
+						</ol>
+
+						It's important to note that we're not talking about <emph>actual</emph> DNA here: a
+						genotype can be anything, as long as it expresses a solution somehow and we can
+						apply evolutionary operators on it.
+
+						Given a set of candidate solutions, we can evaluate them for their fitness, choose individuals
+						to reproduce and thereby produce a new set of candidate solutions. When done right and repeated
+						sufficiently often, this results in better and better candidate solutions. This process is
+						likely familiar to many from real life, where it is known as "breeding". This is the same thing,
+						except rather than natural organisms, we're using artificial problems.
+
+
+					</aside>
 				</section>
 				<section>
-					<h3>How</h3>
-					<p><i>Hardware is still slow and expensive. We’d like to simulate experiments to look at
-						their potential. We want experiments to be:</i></p>
+					<h3>Evolutionary Robotics (ER)</h3>
+					<ul>
+						<li>In simulation</li>
+						<li>In real time, <emph><i>real space</i></emph></li>
+						<li>Evolution of Things</li>
+					</ul>
+					<aside class="notes">
+						In principle evolution can be applied to anything, and Alan Turing already had the idea to apply
+						it in computation; it's at least as old as the computer itself. Applying it to robotics
+						is arguably even more akin to biological evolution than in general computation, and has
+						by now been done
+
+						Taking a big leap forward, recent technology has provided us with the means to rapidly
+						manufacture physical structures using 3D-printing, which sparks the desire to take evolution
+						back to the real world, by evolving robots in real time and in real space, otherwise
+						known as the Evolution of Things.
+					</aside>
+				</section>
+				<section>
+					<h3>Simulation</h3>
+					<ul>
+						<li>Hardware: slow & expensive</li>
+						<li>Many iterations required</li>
+						<li>Simulation can help</li>
+					</ul>
+					<aside class="notes">
+						I hear you thinking, "what's this guy on about physical robots, I thought this defense
+						was for Computational Science", and you're right. Even though we can by now produce robots
+						mechanically, hardware is still slow and expensive to work with. To validate whether a
+						certain hypothesis might be worth exploring, we can simulate entire environments. Which
+						brings me to the subject of my thesis.
+					</aside>
+				</section>
+				<section>
+					<h3>ER Simulation: Requirements</h3>
 					<ul>
 						<li>Flexible</li>
-						<li>Fast to bootstrap</li>
-						<li>Fast to compute</li>
+						<li>Fast to set up</li>
+						<li>Fast to execute</li>
 					</ul>
+					<aside class="notes">
+						If our goal is to essentially scout the experiment space for worthwhile ideas, we should
+						be able to do so rather easily. Therefore simulation tools need to comply to a few requirements.
+						They need to be flexible, so we can set up our experiments in the way that we want, and we
+						don't want to waste too much time setting them up and executing them.
+					</aside>
+				</section>
+				<section>
+					<h3>The <i>R</i>obot <i>Evolve</i> Toolkit</h3>
+					<ul>
+						<li>Builds on top of
+								<img src="./img/gazebo.png" height="25px" alt="Gazebo"
+									 style="vertical-align:middle; border-color:#ffffff;" /></li>
+						<li>Multi-layered:
+							<ul>
+								<li>High performance: C++</li>
+								<li>Setup and bootstrap: Python</li>
+							</ul>
+						</li>
+					</ul>
+					<!-- TODO This is about as far as I got now. Time for lunch. -->
+					<aside class="notes">
+						The lack of a current software package meeting this requirement has led me to the development
+						of Revolve.
+					</aside>
 				</section>
 				<section>
 					<h3>Research</h3>
