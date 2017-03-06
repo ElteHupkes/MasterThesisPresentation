@@ -1,0 +1,56 @@
+#video-background {
+    overflow: hidden;
+    position: absolute;
+    top:0; right:0; bottom:0; left:0;
+    display:none;
+}
+
+.with-video #video-background {
+    display:block;
+}
+
+#video-background iframe {
+    border:none;
+    position:absolute;
+    top:-50px;
+    right:-50px;
+    bottom:-50px;
+    left:-50px;
+}
+
+#footer {
+    position:absolute;
+    left:15px;
+    bottom:15px;
+    font-size:18px;
+}
+
+.valign, .reveal .valign {
+    vertical-align: middle;
+}
+
+.left {
+    text-align: left;
+}
+
+.body-part {
+    margin-left: 20px;
+}
+
+.body-part-row {
+    clear: both;
+    overflow: auto;
+}
+
+.body-part img {
+    max-height: 120px;
+}
+
+.reveal img.plot {
+    max-height:80%;
+    max-width:80%;
+}
+
+.overlay-block {
+    background-color:rgba(35, 36, 31, 0.2);
+}

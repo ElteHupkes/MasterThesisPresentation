@@ -8,6 +8,7 @@
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/blood.css">
+		<link rel="stylesheet" href="css/revolve.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -18,42 +19,6 @@
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 
-		<style type="text/css">
-			#video-background {
-				overflow: hidden;
-				position: absolute;
-				top:0; right:0; bottom:0; left:0;
-				display:none;
-			}
-
-			.with-video #video-background {
-				display:block;
-			}
-
-			#video-background iframe {
-				border:none;
-				position:absolute;
-				top:-50px;
-				right:-50px;
-				bottom:-50px;
-				left:-50px;
-			}
-
-			#footer {
-				position:absolute;
-				left:15px;
-				bottom:15px;
-				font-size:18px;
-			}
-
-			.valign, .reveal .valign {
-				vertical-align: middle;
-			}
-
-			.left {
-				text-align: left;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="video-background">
@@ -65,7 +30,7 @@
 			<div class="slides">
 				<section data-state="with-video">
 
-					<div style="background-color:rgba(35, 36, 31, 0.2);">
+					<div class="overlay-block">
 						<h1>Revolve</h1>
 						<h2>An Evolutionary Robotics Toolkit</h2>
 					</div>
@@ -78,11 +43,11 @@
 					<h3>Outline</h3>
 					<ol>
 						<li>Background</li>
-						<li>What & why</li>
-						<li>How: introducing Revolve</li>
-						<li>Experimental setup</li>
+						<li>What & Why</li>
+						<li>How: Introducing Revolve</li>
+						<li>Experimental Setup</li>
 						<li>Results</li>
-						<li>Conclusions & recommendations</li>
+						<li>Conclusions & Recommendations</li>
 					</ol>
 					<!-- Writing the asides as a story because I find it easier to determine the
 					     flow of the presentation that way. Maybe remove the notes later to prevent
@@ -163,7 +128,7 @@
 				<section>
 					<h3>Simulation</h3>
 					<ul>
-						<li>Hardware: slow & expensive</li>
+						<li>Hardware: (still) slow & expensive</li>
 						<li>Many iterations required</li>
 						<li>Simulation can help</li>
 					</ul>
@@ -208,7 +173,6 @@
 							</ul>
 						</li>
 					</ul>
-					<!-- TODO This is about as far as I got now. Time for lunch. -->
 					<aside class="notes">
 						The lack of a current software package meeting this requirement has led me to develop
 						Revolve. It builds on top of the free, open source Gazebo simulator. Gazebo is a very
@@ -221,99 +185,304 @@
 				<!------------------- SLIDE -------------------------------->
 
 				<section>
-					<section>
-						<h3>Revolve basics: the specification</h3>
-						<p class="left">Given:</p>
-						<ol>
-							<li>A predefined set of (arbitrary) <i>body parts</i>, with predefined
-								<i>attachment slots</i></li>
-							<li>A labeled tree graph <i>blueprint</i></li>
-						</ol>
-						<p class="left">Revolve can construct a robot to simulate with Gazebo.</p>
+					<h3>Revolve basics: the specification</h3>
+					<p class="left">Given:</p>
+					<ol>
+						<li>A predefined set of (arbitrary) <i>body parts</i>, with predefined
+							<i>attachment slots</i></li>
+						<li>A labeled tree graph <i>blueprint</i></li>
+					</ol>
+					<p class="left">Revolve can construct a robot to simulate with Gazebo.</p>
 
-						<aside class="notes">
-							At the heart of Revolve lies the Revolve Specification, which allows for the construction
-							of arbitrary robots from a predefined set of body parts. Each of these body parts has
-							a number of attachment slots, i.e. locations at which parts attach to each other. A
-							specific robot body is then specified
-						</aside>
-					</section>
-					<section>
-						<h3>Example (2D)</h3>
-						<p>
-							<img src="./img/sample_parts.png" height="250px" alt="" class="fragment valign">
-							<span class="fragment">+</span>
-							<img src="./img/blueprint_1.png" height="250px" alt="" class="fragment valign">
-							<span class="fragment">=</span>
-							<img src="./img/result_1.png" height="250px" alt="" class="fragment valign">
-						</p>
-					</section>
+					<aside class="notes">
+						At the heart of Revolve lies the Revolve Specification, which allows for the construction
+						of arbitrary robots from a predefined set of body parts. Each of these body parts has
+						a number of attachment slots, i.e. locations at which parts attach to each other. A
+						specific robot body is then specified using a labeled tree graph, where the nodes
+						are the body parts and the labeled edges the attachments between these body parts.
+
+						Given such a blueprint, Revolve can construct a robot in the SDF format that can be
+						simulated by Gazebo, taking into account all the physical properties of the combination.
+					</aside>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Example (2D)</h3>
+					<p>
+						<img src="./img/sample_parts.png" height="250px" alt="Parts" class="fragment valign">
+						<span class="fragment">+</span>
+						<img src="./img/blueprint_1.png" height="250px" alt="Blueprint" class="fragment valign">
+						<span class="fragment">=</span>
+						<img src="./img/result_1.png" height="250px" alt="Result" class="fragment valign">
+					</p>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
 
 				<section>
 					<h3>Research</h3>
-					<p>What happens between off-line and on-line?</p>
+					<p>Off-line versus on-line evolution</p>
+					<p class="fragment"><i>What happens between off-line and on-line?</i></p>
+
+					<aside class="notes">
+						Given this software toolkit, we would like to prove its worth by performing some simulations.
+						Most evolutionary robotics research so far considered specific optimization problems in
+						what we could call off-line evolution, which is characterized by a separation in the
+						simulation process: a robot is constructed, evaluated for fitness, conditionally reproduced -
+						repeat until the desired result is achieved. Revolve on the other hand is designed for
+						simulation of real-life scenarios which are continuous and integrated, with evaluation
+						and reproduction happening in active populations inside some environment.
+
+						An interesting question to answer is therefore how this transition from off-line to
+						on-line evolution affects the performance of individuals, and in my thesis I've setup
+						an experiment to investigate this question.
+					</aside>
 				</section>
-				<section>
-					<h3>Revolve</h3>
-					<ul>
-						<li>Built on Gazebo</li>
-						<li>Separate modules</li>
-						<li>Fast stuff in C++, tedious stuff in Python</li>
-					</ul>
-				</section>
-				<section>
-					<h3>Theory: Revolve specification</h3>
-					<p>Graph structure, picture would be nice</p>
-				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
 				<section>
 					<h3>Experimental setup</h3>
-					<p>Genotype: Revolve spec with neural network and RoboGen body parts.</p>
+					<ul>
+						<li>Three scenarios, off-line to on-line</li>
+						<li>Genome: Revolve spec + neural network</li>
+						<li>RoboGen [1] body parts</li>
+					</ul>
+					<p><a href="http://www.robogen.org">[1] http://www.robogen.org</a></p>
+
+					<aside class="notes">
+						The setup of this experiment aims to provide three similar simulation scenarios, which
+						vary in the degree one would consider them on-line. We use the body space from RoboGen,
+						a major precursor to this work, adapted to the Revolve specification. We extend the
+						Revolve blueprint with neural network properties such that the robot has an evolvable
+						brain that controls the motors. The body parts are taken from RoboGen.
+					</aside>
 				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
 				<section>
 					<h3>Body parts</h3>
-					<p>Pictures</p>
+					<div class="body-part-row">
+						<span class="body-part">
+							<img src="./img/body_parts/CoreComponent.png" alt="">
+						</span>
+						<span class="body-part">
+							<img src="./img/body_parts/FixedBrick.png" alt="">
+						</span>
+						<span class="body-part">
+							<img src="./img/body_parts/ParametricBarJoint.png" alt="">
+						</span>
+					</div>
+					<div class="body-part-row">
+						<span class="body-part">
+							<img src="./img/body_parts/PassiveHinge.png" alt="">
+						</span>
+						<span class="body-part">
+							<img src="./img/body_parts/ActiveHinge.png" alt="">
+						</span>
+						<span class="body-part">
+							<img src="./img/body_parts/TouchSensor.png" alt="">
+						</span>
+					</div>
+
+					<blockquote class="fragment">"Wheels are boring"</blockquote>
+
+					<aside class="notes">
+						Here we see the body parts that were used for the robots in the experiments. These body parts
+						were taken from RoboGen. Most of the parts are static, but we have one part that can produce
+						locomotion (the active hinge), and two parts with sensors: the core component and
+						the touch sensor.
+					</aside>
 				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
 				<section>
-					<h3>Scenarios</h3>
+					<h3>Scenarios: similarities</h3>
 					<ul>
-						<li>Computational performance</li>
-						<li>Baseline</li>
-						<li>Evolution 1, 2 and 3</li>
+						<li>Random starting population</li>
+						<li>Fitness: <i>f(p) = v + 5s</i></li>
+						<li>Evaluation time: 12s</li>
+						<li>Parent selection: 4-tournament</li>
+						<li>3000 total individuals</li>
 					</ul>
 				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
 				<section>
-					<h3>Results: Performance</h3>
-					<p>Picture</p>
+					<h3>Scenarios: differences</h3>
+					<table>
+						<tr><th></th><th>Sc. 1</th><th>Sc. 2</th><th>Sc. 3</th></tr>
+						<tr><th>Scheme</th><td>15 + 15</td><td>15 + 1</td><td>Dynamic</td></tr>
+						<tr><th>Survivor</th><td>Best 15/30</td><td>Best 15/16</td><td>Best 30% or in best 8</td></tr>
+					</table>
 				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
 				<section>
-					<h3>Results: Evolution</h3>
-					<section>
-						<p>Got to decide on what to show here</p>
-					</section>
-					<section>
-						<p>Probably a few like these</p>
-					</section>
+					<h3>Scenarios: baseline & performance</h3>
+					<ul>
+						<li>No reproduction</li>
+						<li>No selection</li>
+						<li>Execution speed</li>
+					</ul>
 				</section>
+
+				<!------------------- SLIDE -------------------------------->
 				<section>
-					<h3>Conclusion</h3>
-					<section>
-						<h4>Utility</h4>
-					</section>
-					<section>
-						<h4>Experiments</h4>
-					</section>
+					<h3>Results</h3>
+
+					<aside class="notes">
+						Each of the aforementioned experiments was repeated 30 times to obtain
+						adequate averages. The runs produced a lot of data, from which I extracted various
+						statistics. The data I'll present here is a selection from the most relevant
+						processed data.
+					</aside>
 				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Fitness - final populations</h3>
+					<img src="./img/plots/fitness.png" alt="Fitness" class="plot">
+
+					<aside class="notes">
+						This plot shows the average fitness of the final populations, which is clearly
+						higher in scenario's 1 and 2. Let's find out what causes this.
+					</aside>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Fitness - progression</h3>
+					<img src="./img/plots/fitness_births.png" alt="Fitness over time" class="plot">
+					<aside class="notes">
+						Here we have the fitness progression over time. To obtain a unified scale across the
+						experiments, we use the total number of births in the system as a time scale.
+
+						We see all scenario's initially taking off, after which scenario 3 continues at a much
+						slower increase than the other two. None of the bars have flattened out yet, so it might
+						have been interesting to run these experiments even longer.
+					</aside>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Gene Diversity</h3>
+					<div style="overflow: auto;">
+						<img src="./img/plots/diversity.png" alt="Diversity" class="plot" style="width:45%; float:left;">
+						<img src="./img/plots/diversity_time.png" alt="Diversity over time" class="plot" style="width:45%; float:right;">
+					</div>
+
+					<aside class="notes">
+						One of the things we can use to find out what causes the differences in fitness is
+						the genetic diversity in final populations. Here we use a simplified metric based on
+						Tree Edit Distance to determine how different robots in the final populations are.
+						We observe a higher gene diversity in robots in the on-line experiment.
+					</aside>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Retention rate</h3>
+					<img src="./img/plots/refresh_120.png" alt="Retention rate" class="plot">
+
+					<aside class="notes">
+						Another metric we can observe is the retention rate - the fraction of robots from
+						a certain population that is still alive after a fixed time interval. Here we show
+						that retention rate for a time interval of n = 120 births. Observe how scenario 1 and 2
+						are very similar, whereas robots in scenario 3 have a much lower likelihood of still
+						being alive 120 births later.
+
+						A low retention can happen if new robots are often fitter than older robots, which accounts
+						for most of the slopes' angles. The difference between the experiments can only have one other
+						explanation, which we observe in the following slide...
+					</aside>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Fitness diversity</h3>
+					<img src="./img/plots/fit_diff.png" alt="Fitness" class="plot">
+					<aside class="notes">
+						Robots in an on-line scenario have fluctuating fitness values.
+						This slide shows probability density of the relative difference in fitness for any robot
+						within a single active population. We see that large fluctuations are rather common,
+						meaning that a robot that is very fit at one point can be remarkably unfit at another.
+						This uncertainty lowers the retention rate.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Experiment conclusions</h3>
+					<ul>
+						<li class="fragment">Differences in fitness (progression)</li>
+						<li class="fragment">Continuous evaluation - larger diversity</li>
+					</ul>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<!--<section>-->
+					<!-- REMOVED, getting too long -->
+					<!--<h3>Robot size</h3>-->
+					<!--<img src="./img/plots/num_parts.png" alt="Robot size" class="plot">-->
+				<!--</section>-->
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Performance</h3>
+					<img src="./img/plots/benchmark.png" alt="Benchmark" style="width:65%;">
+
+					<aside class="notes">
+						This slide shows the execution performance of simulating a population of average robots.
+						The Real Time Factor is the amount of seconds of simulation time per second of normal time
+						that can be achieved on regular hardware. These results come with a number
+						of caveats, because performance depends largely on the required accuracy, simulated parameters
+						and properties of the robots involved. That being said, a real time factor of 1.0 is reached at
+						around 28 individuals for these specific experiments.
+					</aside>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Conclusions</h3>
+					<ul>
+						<li>Utility</li>
+						<li>Performance</li>
+						<li>Experiments</li>
+					</ul>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
 				<section>
 					<h3>Recommendations & Future Work</h3>
-					<p>Reality gap (Discussion, actually)</p>
-					<p>Sensors</p>
-					<p>More focus on brains</p>
-					<p>Parameter search</p>
-					<p>Triangle of Life</p>
+					<ul>
+						<li>Reality gap</li>
+						<li>Sensors & brains</li>
+						<li>Parameter tuning</li>
+						<li>Artificial Ecosystems (Triangle of Life)</li>
+					</ul>
 				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section data-background-image="./img/robot.png">
+					<h3 class="overlay-block">Questions</h3>
+				</section>
+
 			</div>
 			<div id="footer">Elte Hupkes</div>
 		</div>

@@ -1,0 +1,11 @@
+magick -density 288 fitness.pdf -set filename:f "%t" -resize 50% %[filename:f].png
+
+See:
+http://www.imagemagick.org/discourse-server/viewtopic.php?t=16045
+
+See:
+http://imagemagick.org/script/escape.php
+and
+http://www.imagemagick.org/Usage/files/#save_escapes
+
+for the filename convenience.
