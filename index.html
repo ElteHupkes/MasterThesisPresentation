@@ -34,7 +34,9 @@
 						<h1>Revolve</h1>
 						<h2>An Evolutionary Robotics Toolkit</h2>
 					</div>
-
+					<aside class="notes">
+						Today, I'll be presenting the work of my Master's thesis, which is about evolving robots.
+					</aside>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
@@ -53,7 +55,6 @@
 					     flow of the presentation that way. Maybe remove the notes later to prevent
 					     it from actually becoming a read story. -->
 					<aside class="notes">
-						Today, I'll be presenting the work of my Master's thesis, which is about evolving robots.
 						This may sound a little bit "out there" for most of the audience, so I am going to start
 						with a quick primer on what that actually means. I will then tell you what it is that
 						I've been aiming to achieve, and why. I'll introduce the Revolve toolkit and tell you
@@ -67,10 +68,10 @@
 				<section>
 					<h3>Solving problems using evolution</h3>
 					<ol>
-						<li class="fragment">Genotype, "DNA"</li>
-						<li class="fragment">Phenotype</li>
+						<li class="fragment">Genome, "DNA"</li>
+						<li class="fragment">Phenome</li>
 						<li class="fragment">Fitness</li>
-						<li class="fragment">Reproduction (combination & mutation)</li>
+						<li class="fragment">Selection & Reproduction (combination & mutation)</li>
 						<li class="fragment">Candidate solutions</li>
 					</ol>
 
@@ -303,12 +304,23 @@
 				<section>
 					<h3>Scenarios: similarities</h3>
 					<ul>
+						<li>Infinite flat plane</li>
 						<li>Random starting population</li>
 						<li>Fitness: <i>f(p) = v + 5s</i></li>
-						<li>Evaluation time: 12s</li>
 						<li>Parent selection: 4-tournament</li>
 						<li>3000 total individuals</li>
 					</ul>
+
+					<aside class="notes">
+						Moving on to the three experiment scenarios, they share a number of similarities.
+						The environment is the same for all of them, a random flat plane. A starting population
+						is randomly generated for all scenarios from a distribution of possible robots. There
+						is a shared fitness function, which rewards straight velocity more than absolute
+						path velocity. For parent selection we use a 4-tournament, which amounts to selecting
+						4 random robots from the current generation, taking the best as parent 1, selecting
+						another 4, and taking the best as parent 2. Each experiment runs until 3000 individuals
+						have been born in total.
+					</aside>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
@@ -317,9 +329,21 @@
 					<h3>Scenarios: differences</h3>
 					<table>
 						<tr><th></th><th>Sc. 1</th><th>Sc. 2</th><th>Sc. 3</th></tr>
-						<tr><th>Scheme</th><td>15 + 15</td><td>15 + 1</td><td>Dynamic</td></tr>
-						<tr><th>Survivor</th><td>Best 15/30</td><td>Best 15/16</td><td>Best 30% or in best 8</td></tr>
+						<tr><th>Evaluation</th><td>One at a time</td><td>One at a time</td><td>Active population</td></tr>
+						<tr><th>Scheme</th><td>15 + 15</td><td>15 + 1</td><td>1 child every 15s</td></tr>
+						<tr><th>Survivor</th><td>Best 15/30</td><td>Best 15/16</td><td>Best 30% fitness or in best 8</td></tr>
 					</table>
+
+					<aside class="notes">
+						More important are the differences between the scenarios. Scenario 1 is a classic off-line
+						evolution scenario, in which we serially evaluate 15 robots, execute reproduction to produce
+						15 children, and select the best 15 from the resulting 30. This is quite different from our
+						on-line scenario 3, in which a new child is born into the active population every 15 seconds.
+						Scenario 2 is also fully off-line, but more similar to the on-line scenario in that we only
+						produce one child before survivor selection. We do not keep the number of active robots
+						constant in scenario 3, but rather kill a certain percentage of the least fit robots,
+						with a minimum to make sure the population does not go extinct.
+					</aside>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
@@ -331,6 +355,11 @@
 						<li>No selection</li>
 						<li>Execution speed</li>
 					</ul>
+					<aside class="notes">
+						To rule out biases in the evolution process, we also run 2 baseline experiments: one without
+						reproduction, and one without selection. Furthermore we're interested in the execution
+						performance of the experiments, for which a separate test is run.
+					</aside>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
@@ -383,9 +412,13 @@
 
 					<aside class="notes">
 						One of the things we can use to find out what causes the differences in fitness is
-						the genetic diversity in final populations. Here we use a simplified metric based on
-						Tree Edit Distance to determine how different robots in the final populations are.
-						We observe a higher gene diversity in robots in the on-line experiment.
+						the genetic diversity in final populations. It is possible that Scenario 1
+						and Scenario 2 get stuck in a local optimum by selecting for the same fast robots
+						very early. Here we use a simplified metric based on Tree Edit Distance to determine how
+						different robots in the final populations are. We observe a higher gene diversity in robots
+						in the on-line experiment. The average diversity drops quite rapidly in each of the experiments,
+						which indicates the elimination of "bad" robots. It then continues to drop in the off-line
+						scenarios, while flattening out for the on-line case. What is going on?
 					</aside>
 				</section>
 
@@ -396,15 +429,16 @@
 					<img src="./img/plots/refresh_120.png" alt="Retention rate" class="plot">
 
 					<aside class="notes">
-						Another metric we can observe is the retention rate - the fraction of robots from
-						a certain population that is still alive after a fixed time interval. Here we show
-						that retention rate for a time interval of n = 120 births. Observe how scenario 1 and 2
-						are very similar, whereas robots in scenario 3 have a much lower likelihood of still
-						being alive 120 births later.
+						To analyze this further we look at what I call the "retention rate" - the fraction of robots
+						in a certain population that is still alive n births later. Here we show this average value
+						for n=120. Observe how scenario 1 and 2 are very similar, whereas robots in scenario 3
+						have a much lower likelihood of still being alive 120 births later.
 
 						A low retention can happen if new robots are often fitter than older robots, which accounts
-						for most of the slopes' angles. The difference between the experiments can only have one other
-						explanation, which we observe in the following slide...
+						for most of the slopes' angles. The difference between the experiments can potentially happen
+						if robots that were previously considered fit are all of a sudden not so fit anymore, which
+						is possible in an on-line scenario where fitness values fluctuate. We'll try to visualize
+						this in the next slide.
 					</aside>
 				</section>
 
@@ -414,20 +448,31 @@
 					<h3>Fitness diversity</h3>
 					<img src="./img/plots/fit_diff.png" alt="Fitness" class="plot">
 					<aside class="notes">
-						Robots in an on-line scenario have fluctuating fitness values.
-						This slide shows probability density of the relative difference in fitness for any robot
-						within a single active population. We see that large fluctuations are rather common,
-						meaning that a robot that is very fit at one point can be remarkably unfit at another.
-						This uncertainty lowers the retention rate.
+						Here we see the fitness diversity - the relative difference in fitness for a single robot
+						compared to the fitness range of the populations it has been a part of. We see that large
+						fluctuations are rather common, meaning that a robot that is very fit at one point can be
+						remarkably unfit at another. This uncertainty lowers the retention rate.
 					</aside>
 				</section>
 
 				<section>
 					<h3>Experiment conclusions</h3>
 					<ul>
-						<li class="fragment">Differences in fitness (progression)</li>
+						<li class="fragment">Fitness differences</li>
 						<li class="fragment">Continuous evaluation - larger diversity</li>
+						<li class="fragment">Local optimum? Longer runs required.</li>
+						<li class="fragment">More robust fitness?</li>
 					</ul>
+
+					<aside class="notes">
+						Concluding this data: we observe fitness differences between the various experiments. The
+						main driver behind this is hypothesized to be the continuous evaluation in the on-line case,
+						which results in fluctuating fitness values and through that more random selection and
+						higher gene diversity. It is possible the off-line experiments will get stuck in a local
+						optimum because of lack of diversity, but longer runs are required to confirm this. Surviving
+						robots in the on-line experiments will need to have a more consistent fitness over their
+						long evaluation time and are therefore likely more robust.
+					</aside>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
@@ -450,19 +495,22 @@
 						that can be achieved on regular hardware. These results come with a number
 						of caveats, because performance depends largely on the required accuracy, simulated parameters
 						and properties of the robots involved. That being said, a real time factor of 1.0 is reached at
-						around 28 individuals for these specific experiments.
+						around 28 individuals for these specific experiments - which allows for reasonably large
+						scale experimentation.
 					</aside>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
 
 				<section>
-					<h3>Conclusions</h3>
-					<ul>
-						<li>Utility</li>
-						<li>Performance</li>
-						<li>Experiments</li>
-					</ul>
+					<h3>Utility</h3>
+
+					<aside class="notes">
+						What is left is a rather subjective aside about the utility of Revolve. Once familiarity
+						with the toolkit is obtained, it is possible to bootstrap experiments in Python quite
+						rapidly, while maintaining the performance of Gazebo. The toolkit will require some
+						documentation to promote adoption.
+					</aside>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
