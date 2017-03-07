@@ -41,27 +41,27 @@
 
 				<!------------------- SLIDE -------------------------------->
 
-				<section>
-					<h3>Outline</h3>
-					<ol>
-						<li>Background</li>
-						<li>What & Why</li>
-						<li>How: Introducing Revolve</li>
-						<li>Experimental Setup</li>
-						<li>Results</li>
-						<li>Conclusions & Recommendations</li>
-					</ol>
-					<!-- Writing the asides as a story because I find it easier to determine the
-					     flow of the presentation that way. Maybe remove the notes later to prevent
-					     it from actually becoming a read story. -->
-					<aside class="notes">
-						This may sound a little bit "out there" for most of the audience, so I am going to start
-						with a quick primer on what that actually means. I will then tell you what it is that
-						I've been aiming to achieve, and why. I'll introduce the Revolve toolkit and tell you
-						what it's designed to do. I will then walk you through the setup of the experiments that
-						I performed with this toolkit, followed by their results, and conclusions.
-					</aside>
-				</section>
+				<!--<section>-->
+					<!--<h3>Outline</h3>-->
+					<!--<ol>-->
+						<!--<li>Background</li>-->
+						<!--<li>What & Why</li>-->
+						<!--<li>How: Introducing Revolve</li>-->
+						<!--<li>Experimental Setup</li>-->
+						<!--<li>Results</li>-->
+						<!--<li>Conclusions & Recommendations</li>-->
+					<!--</ol>-->
+					<!--&lt;!&ndash; Writing the asides as a story because I find it easier to determine the-->
+					     <!--flow of the presentation that way. Maybe remove the notes later to prevent-->
+					     <!--it from actually becoming a read story. &ndash;&gt;-->
+					<!--<aside class="notes">-->
+						<!--This may sound a little bit "out there" for most of the audience, so I am going to start-->
+						<!--with a quick primer on what that actually means. I will then tell you what it is that-->
+						<!--I've been aiming to achieve, and why. I'll introduce the Revolve toolkit and tell you-->
+						<!--what it's designed to do. I will then walk you through the setup of the experiments that-->
+						<!--I performed with this toolkit, followed by their results, and conclusions.-->
+					<!--</aside>-->
+				<!--</section>-->
 
 				<!------------------- SLIDE -------------------------------->
 
@@ -105,7 +105,7 @@
 				<!------------------- SLIDE -------------------------------->
 
 				<section>
-					<h3>Evolutionary Robotics (ER)</h3>
+					<h3>Evolutionary Robotics</h3>
 					<ul>
 						<li>In simulation</li>
 						<li>In real time, <emph><i>real space</i></emph></li>
@@ -145,7 +145,7 @@
 				<!------------------- SLIDE -------------------------------->
 
 				<section>
-					<h3>ER Simulation: Requirements</h3>
+					<h3>Simulation: Requirements</h3>
 					<ul>
 						<li>Flexible</li>
 						<li>Fast to set up</li>
@@ -167,10 +167,10 @@
 						<li>Builds on top of
 								<img src="./img/gazebo.png" height="25px" alt="Gazebo"
 									 style="vertical-align:middle; border-color:#ffffff;" /></li>
-						<li>Multi-layered:
+						<li>Fast where it matters:
 							<ul>
-								<li>High performance: C++</li>
-								<li>Setup and bootstrap: Python</li>
+								<li>Simulation: fast to <i>execute</i> (C++)</li>
+								<li>Setup: fast to <i>implement</i></li>
 							</ul>
 						</li>
 					</ul>
@@ -185,40 +185,90 @@
 
 				<!------------------- SLIDE -------------------------------->
 
+				<!--<section>-->
+					<!--<h3>Revolve basics: the specification</h3>-->
+					<!--<p class="left">Given:</p>-->
+					<!--<ol>-->
+						<!--<li>A predefined set of (arbitrary) <i>body parts</i>, with predefined-->
+							<!--<i>attachment slots</i></li>-->
+						<!--<li>A labeled tree graph <i>blueprint</i></li>-->
+					<!--</ol>-->
+					<!--<p class="left">Revolve can construct a robot to simulate with Gazebo.</p>-->
+
+					<!--<aside class="notes">-->
+						<!--At the heart of Revolve lies the Revolve Specification, which allows for the construction-->
+						<!--of arbitrary robots from a predefined set of body parts. Each of these body parts has-->
+						<!--a number of attachment slots, i.e. locations at which parts attach to each other. A-->
+						<!--specific robot body is then specified using a labeled tree graph, where the nodes-->
+						<!--are the body parts and the labeled edges the attachments between these body parts.-->
+
+						<!--Given such a blueprint, Revolve can construct a robot in the SDF format that can be-->
+						<!--simulated by Gazebo, taking into account all the physical properties of the combination.-->
+					<!--</aside>-->
+				<!--</section>-->
+
+				<!------------------- SLIDE -------------------------------->
+
 				<section>
 					<h3>Revolve basics: the specification</h3>
 					<p class="left">Given:</p>
-					<ol>
+					<ul>
 						<li>A predefined set of (arbitrary) <i>body parts</i>, with predefined
 							<i>attachment slots</i></li>
-						<li>A labeled tree graph <i>blueprint</i></li>
-					</ol>
-					<p class="left">Revolve can construct a robot to simulate with Gazebo.</p>
-
-					<aside class="notes">
-						At the heart of Revolve lies the Revolve Specification, which allows for the construction
-						of arbitrary robots from a predefined set of body parts. Each of these body parts has
-						a number of attachment slots, i.e. locations at which parts attach to each other. A
-						specific robot body is then specified using a labeled tree graph, where the nodes
-						are the body parts and the labeled edges the attachments between these body parts.
-
-						Given such a blueprint, Revolve can construct a robot in the SDF format that can be
-						simulated by Gazebo, taking into account all the physical properties of the combination.
-					</aside>
+					</ul>
+					<p>
+						<span class="fragment">
+							<img src="./img/sample_parts.png" height="250px" alt="Parts" class="valign">
+						</span>
+					</p>
 				</section>
 
 				<!------------------- SLIDE -------------------------------->
 
 				<section>
-					<h3>Example (2D)</h3>
+					<h3>Revolve basics: the specification</h3>
+					<p class="left">Given:</p>
+					<ul>
+						<li>A labeled tree graph <i>blueprint</i></li>
+					</ul>
 					<p>
-						<img src="./img/sample_parts.png" height="250px" alt="Parts" class="fragment valign">
-						<span class="fragment">+</span>
-						<img src="./img/blueprint_1.png" height="250px" alt="Blueprint" class="fragment valign">
-						<span class="fragment">=</span>
-						<img src="./img/result_1.png" height="250px" alt="Result" class="fragment valign">
+						<img src="./img/sample_parts.png" height="250px" alt="Parts" class="valign">
+						<span class="fragment">
+							<span>+</span>
+							<img src="./img/blueprint_1.png" height="250px" alt="Blueprint" class="valign">
+						</span>
 					</p>
 				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<section>
+					<h3>Revolve basics: the specification</h3>
+					<p class="left">Revolve can construct a robot to simulate with Gazebo.</p>
+					<p>
+						<img src="./img/sample_parts.png" height="250px" alt="Parts" class="valign">
+						<span>+</span>
+						<img src="./img/blueprint_1.png" height="250px" alt="Blueprint" class="valign">
+
+						<span class="fragment">
+							<span>=</span>
+							<img src="./img/result_1.png" height="250px" alt="Result" class="valign">
+						</span>
+					</p>
+				</section>
+
+				<!------------------- SLIDE -------------------------------->
+
+				<!--<section>-->
+					<!--<h3>Example (2D)</h3>-->
+					<!--<p>-->
+						<!--<img src="./img/sample_parts.png" height="250px" alt="Parts" class="fragment valign">-->
+						<!--<span class="fragment">+</span>-->
+						<!--<img src="./img/blueprint_1.png" height="250px" alt="Blueprint" class="fragment valign">-->
+						<!--<span class="fragment">=</span>-->
+						<!--<img src="./img/result_1.png" height="250px" alt="Result" class="fragment valign">-->
+					<!--</p>-->
+				<!--</section>-->
 
 				<!------------------- SLIDE -------------------------------->
 
