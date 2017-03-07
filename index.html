@@ -359,6 +359,7 @@
 						<li>Fitness: <i>f(p) = v + 5s</i></li>
 						<li>Parent selection: 4-tournament</li>
 						<li>3000 total individuals</li>
+						<li>15 initial robots</li>
 					</ul>
 
 					<aside class="notes">
@@ -379,9 +380,9 @@
 					<h3>Scenarios: differences</h3>
 					<table>
 						<tr><th></th><th>Sc. 1</th><th>Sc. 2</th><th>Sc. 3</th></tr>
-						<tr><th>Evaluation</th><td>One at a time</td><td>One at a time</td><td>Active population</td></tr>
-						<tr><th>Scheme</th><td>15 + 15</td><td>15 + 1</td><td>1 child every 15s</td></tr>
-						<tr><th>Survivor</th><td>Best 15/30</td><td>Best 15/16</td><td>Best 30% fitness or in best 8</td></tr>
+						<tr><th>Evaluation</th><td>One at a time</td><td>One at a time</td><td class="blood">Active population</td></tr>
+						<tr><th>Scheme</th><td>15 + 15</td><td class="blood">15 + 1</td><td class="blood">1 child every 15s</td></tr>
+						<tr><th>Survivor</th><td>Best 15</td><td>Best 15</td><td class="blood">Percentage with minimum</td></tr>
 					</table>
 
 					<aside class="notes">
